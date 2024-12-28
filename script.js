@@ -10,6 +10,19 @@ class TaskManager {
         document.getElementById('addTaskBtn').addEventListener('click', () => {
             this.openModal();
         });
+        document.getElementById('statusFilter').addEventListener('change', () => {
+            this.applyFilters();
+        });
+        
+        document.getElementById('priorityFilter').addEventListener('change', () => {
+            this.applyFilters();
+        });
+        
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            this.clearFilters();
+        });
+        
+        // Keep your existing event listeners
 
         // Form Submission
         document.getElementById('taskForm').addEventListener('submit', (e) => {
@@ -68,7 +81,42 @@ class TaskManager {
             document.getElementById('taskForm').reset();
         }, 300);
     }
-
+    applyFilters() {
+        const statusFilter = document.getElementById('statusFilter').value;
+        const priorityFilter = document.getElementById('priorityFilter').value;
+        const searchTerm = document.querySelector('.search-bar input').value.toLowerCase();
+        
+        const taskElements = document.querySelectorAll('.task-card');
+        
+        taskElements.forEach(element => {
+            const title = element.querySelector('.task-title').textContent.toLowerCase();
+            const description = element.querySelector('.task-description').textContent.toLowerCase();
+            const status = element.classList.contains('completed') ? 'completed' : 'pending';
+            const priority = element.querySelector('.priority-badge').textContent.toLowerCase();
+            
+            const matchesStatus = statusFilter === 'all' || status === statusFilter;
+            const matchesPriority = priorityFilter === 'all' || priority.includes(priorityFilter);
+            const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+            
+            if (matchesStatus && matchesPriority && matchesSearch) {
+                element.style.display = '';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    }
+    
+    clearFilters() {
+        document.getElementById('statusFilter').value = 'all';
+        document.getElementById('priorityFilter').value = 'all';
+        document.querySelector('.search-bar input').value = '';
+        this.applyFilters();
+    }
+    
+    // Modify your existing filterTasks method to use applyFilters
+    filterTasks(searchTerm) {
+        this.applyFilters();
+    }
     saveTask() {
         const id = document.getElementById('taskId').value;
         const task = {
