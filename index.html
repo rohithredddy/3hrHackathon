@@ -44,6 +44,29 @@
                 <div class="stat-label">Completed Tasks</div>
             </div>
         </div>
+        <!-- Add this after the stats-grid div and before the tasks-grid div -->
+<div class="filters-container">
+    <div class="filter-group">
+        <label>Status:</label>
+        <select id="statusFilter" class="filter-select">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>Priority:</label>
+        <select id="priorityFilter" class="filter-select">
+            <option value="all">All Priorities</option>
+            <option value="high">High Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="low">Low Priority</option>
+        </select>
+    </div>
+    <button id="clearFilters" class="btn btn-secondary">
+        <i class="fas fa-times"></i> Clear Filters
+    </button>
+</div>
 
         <!-- Tasks Grid -->
         <div class="tasks-grid" id="tasksGrid"></div>
